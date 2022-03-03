@@ -107,3 +107,32 @@ plt.colorbar()
 
 #plt.show()
 st.pyplot(fig)
+
+#### User input ####
+if dataset_name=='Iris':
+    st.sidebar.write("Input Single Sample")
+    sepal_lenght=st.sidebar.number_input('Sepal Lenght')
+    sepal_width=st.sidebar.number_input('Sepal Width')
+    petal_lenght=st.sidebar.number_input('Petal Lenght')
+    petal_width=st.sidebar.number_input('Petal Width')
+    
+    x_user=np.array([sepal_lenght,sepal_width,petal_lenght,petal_width])
+    x_user=np.reshape(x_user,(1,-1))
+    y_pred_user=clf.predict(x_user)
+    user_class=y_names[y_pred_user]
+    user_class=user_class[0]
+    
+    st.write('#### Input Single Sample')
+    st.write(f'Class =', user_class)
+    
+    st.write('#### Input Multiples Samples')
+    st.sidebar.write('Input Multiples Samples')
+    uploaded_file = st.sidebar.file_uploader("Choose a file")
+    if uploaded_file is not None:
+
+         # Can be used wherever a "file-like" object is accepted:
+         dataframe = pd.read_csv(uploaded_file)
+         #dataframe = pd.read_csv('Desktop\iris_samples.csv')
+         dataframe=dataframe.astype(float)
+         
+         st.write(dataframe)
