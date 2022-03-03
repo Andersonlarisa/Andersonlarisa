@@ -116,23 +116,25 @@ if dataset_name=='Iris':
     petal_lenght=st.sidebar.number_input('Petal Lenght')
     petal_width=st.sidebar.number_input('Petal Width')
     
-    x_user=np.array([sepal_lenght,sepal_width,petal_lenght,petal_width])
-    x_user=np.reshape(x_user,(1,-1))
-    y_pred_user=clf.predict(x_user)
+    x_user_single=np.array([sepal_lenght,sepal_width,petal_lenght,petal_width])
+    x_user_single=np.reshape(x_user_single,(1,-1))
+    y_pred_user=clf.predict(x_user_single)
     user_class=y_names[y_pred_user]
     user_class=user_class[0]
     
-    st.write('#### Input Single Sample')
+    st.write('#### Single Sample Predictions')
     st.write(f'Class =', user_class)
     
-    st.write('#### Input Multiples Samples')
+    st.write('#### Multiple Samples Predictions')
     st.sidebar.write('Input Multiples Samples')
     uploaded_file = st.sidebar.file_uploader("Choose a file")
     if uploaded_file is not None:
 
          # Can be used wherever a "file-like" object is accepted:
          dataframe = pd.read_csv(uploaded_file)
-         #dataframe = pd.read_csv('Desktop\iris_samples.csv')
          dataframe=dataframe.astype(float)
-         
+         x_user_multi=dataframe.to_numpy()
+         y_user_multi=clf.predict(x_user_multi)
+         user_class_multi=y_names[y_user_multi]
+         dataframe['Prediction']=user_class_multi
          st.write(dataframe)
